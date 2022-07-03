@@ -6,6 +6,12 @@
 #include <ADR>
 #include <sourcemod>
 
+#include "ADR/Variables.sp"
+#include "ADR/Helpers.sp"
+#include "ADR/Player.sp"
+#include "ADR/Menus.sp"
+#include "ADR/Cmds.sp"
+
 public Plugin myinfo = 
 {
 	name = "[ADR] Advanced Daily Rewards (Core)",
@@ -14,3 +20,21 @@ public Plugin myinfo =
 	version = ADR_VERSION,
 	url = "HLmod: @Xummuk97"
 };
+
+public void OnPluginStart()
+{
+	Helpers_InitVariables();
+	Helpers_LoadTranslations();
+	
+	Cmds_InitCommands();
+}
+
+public void OnClientPutInServer(int iClient)
+{
+	Player_LoadClient(iClient);
+}
+
+public void OnClientDisconnect(int iClient)
+{
+	Player_UnloadClient(iClient);
+}

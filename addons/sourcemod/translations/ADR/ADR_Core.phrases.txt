@@ -1,0 +1,12 @@
+"Phrases"
+{
+	"MAIN_MENU_TITLE"
+	{
+		"ru"		"Главное меню"
+	}
+	
+	"MAIN_MENU_ITEM_RECEIVE_DAILY_REWARD"
+	{
+		"ru"		"Получить бонус"
+	}
+}

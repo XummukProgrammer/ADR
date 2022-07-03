@@ -4,6 +4,11 @@ public bool Helpers_IsPlayerValid(int iClient)
 	return iClient > 0 && iClient <= MaxClients && IsClientConnected(iClient) && IsClientInGame(iClient) && !IsFakeClient(iClient);
 }
 
+public bool Helpers_IsTimeValid(int iTime)
+{
+	return iTime > -1;
+}
+
 public void Helpers_InitVariables()
 {
 	for (int i = 0; i < MAXPLAYERS + 1; ++i)
@@ -28,4 +33,10 @@ public void Helpers_AddMenuItem(Menu hMenu, int iClient, const char[] szInfo, co
 	static char szBuffer[PLATFORM_MAX_PATH];
 	FormatEx(szBuffer, sizeof(szBuffer), "%T", szTranslationID, iClient);
 	hMenu.AddItem(szInfo, szBuffer, iDisplayFlags);
+}
+
+public void Helpers_AddMenuAcceptableItem(Menu hMenu, int iClient, const char[] szInfo, const char[] szTranslationID)
+{
+	int iDisplayFlags = Player_CanReceive(iClient) ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED;
+	Helpers_AddMenuItem(hMenu, iClient, szInfo, szTranslationID, iDisplayFlags);
 }

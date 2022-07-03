@@ -3,9 +3,11 @@ static const char g_szReceiveDailyRewardItemKey[32] = "receiveDailyReward";
 
 public void Menus_ShowMainMenu(int iClient)
 {
+	Player_UpdateClient(iClient);
+
 	Menu hMenu = new Menu(Menus_OnMainMenuHandler);
 	Helpers_SetMenuTitle(hMenu, iClient, "MAIN_MENU_TITLE");
-	Helpers_AddMenuItem(hMenu, iClient, g_szReceiveDailyRewardItemKey, "MAIN_MENU_ITEM_RECEIVE_DAILY_REWARD", ITEMDRAW_DEFAULT);
+	Helpers_AddMenuAcceptableItem(hMenu, iClient, g_szReceiveDailyRewardItemKey, "MAIN_MENU_ITEM_RECEIVE_DAILY_REWARD");
 	hMenu.Display(iClient, MENU_TIME_FOREVER);
 }
 

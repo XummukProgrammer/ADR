@@ -9,6 +9,7 @@
 #include "ADR/Variables.sp"
 #include "ADR/Helpers.sp"
 #include "ADR/Player.sp"
+#include "ADR/Database.sp"
 #include "ADR/Menus.sp"
 #include "ADR/Cmds.sp"
 
@@ -27,6 +28,11 @@ public void OnPluginStart()
 	Helpers_LoadTranslations();
 	
 	Cmds_InitCommands();
+}
+
+public void OnAllPluginsLoaded()
+{
+	Database_InitDB();
 }
 
 public void OnClientPutInServer(int iClient)

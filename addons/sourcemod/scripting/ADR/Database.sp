@@ -65,7 +65,7 @@ static void Database_CreateTables()
 	
 	if (szDriver[0] == 's')
 	{
-		g_hDatabase.Query(Database_OnCheckError, g_szCreateTablesQuery);
+		g_hDatabase.Query(Database_OnCreateTables, g_szCreateTablesQuery);
 	}
 	else
 	{
@@ -75,12 +75,15 @@ static void Database_CreateTables()
 	SQL_UnlockDatabase(g_hDatabase);
 }
 
-public void Database_OnCheckError(Database hDatabase, DBResultSet hResults, const char[] szError, any data)
+public void Database_OnCreateTables(Database hDatabase, DBResultSet hResults, const char[] szError, any data)
 {
 	if (!hResults || szError[0])
 	{
 		ThrowError(szError);
+		return;
 	}
+	
+	CoreLoaded();
 }
 
 public void Database_LoadPlayer(int iClient)

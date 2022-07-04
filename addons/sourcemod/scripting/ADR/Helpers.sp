@@ -16,6 +16,10 @@ public void Helpers_InitVariables()
 		g_hPlayersData[i] = new StringMap();
 		Player_InitData(i);
 	}
+	
+	Packs_InitVariables();
+	Days_InitVariables();
+	Rewards_InitVariables();
 }
 
 public void Helpers_LoadTranslations()

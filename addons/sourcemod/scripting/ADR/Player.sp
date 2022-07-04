@@ -80,7 +80,14 @@ public void Player_ReceiveDailyReward(int iClient)
 	
 	hData.SetValue(g_iNextDayTime, GetTime() + g_iDayTime);
 	
+	Days_ReceiveDayRewards(iClient);
+	
 	Player_UpdateClient(iClient);
+}
+
+public void Player_ReceiveReward(int iClient, const char[] szRewardID, KeyValues hRewardConfig)
+{
+	Rewards_OnRewardReceived(iClient, szRewardID, hRewardConfig);
 }
 
 public bool Player_CanReceive(int iClient)

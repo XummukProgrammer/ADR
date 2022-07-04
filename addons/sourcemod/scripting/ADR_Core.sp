@@ -12,6 +12,11 @@
 #include "ADR/Database.sp"
 #include "ADR/Menus.sp"
 #include "ADR/Cmds.sp"
+#include "ADR/Packs.sp"
+#include "ADR/Days.sp"
+#include "ADR/Rewards.sp"
+#include "ADR/Natives.sp"
+#include "ADR/Forwards.sp"
 
 public Plugin myinfo = 
 {
@@ -22,12 +27,20 @@ public Plugin myinfo =
 	url = "HLmod: @Xummuk97"
 };
 
+public APLRes AskPluginLoad2(Handle hMySelf, bool bIsLate, char[] szError, int iErrorMax)
+{
+	Natives_Create();
+	return APLRes_Success;
+}
+
 public void OnPluginStart()
 {
 	Helpers_InitVariables();
 	Helpers_LoadTranslations();
 	
 	Cmds_InitCommands();
+	
+	Forwards_Create();
 }
 
 public void OnAllPluginsLoaded()
@@ -43,4 +56,9 @@ public void OnClientPutInServer(int iClient)
 public void OnClientDisconnect(int iClient)
 {
 	Player_UnloadClient(iClient);
+}
+
+public void CoreLoaded()
+{
+	Forwards_OnCoreLoaded();
 }

@@ -142,7 +142,7 @@ public void Database_OnAddPlayer(Database hDatabase, DBResultSet hResults, const
 		return;
 	}
 	
-	Player_OnClientLoaded(iClient);
+	Player_PostClientAdd(iClient);
 }
 
 public void Database_UpdatePlayer(int iClient)
@@ -158,7 +158,6 @@ public void Database_UpdatePlayer(int iClient)
 	g_hDatabase.Query(Database_OnUpdatePlayer, szQuery, GetClientUserId(iClient));
 }
 
-// TODO: Необходимо ли это?
 public void Database_OnUpdatePlayer(Database hDatabase, DBResultSet hResults, const char[] szError, int iUserID)
 {
 	if (!hResults || szError[0])
@@ -172,4 +171,6 @@ public void Database_OnUpdatePlayer(Database hDatabase, DBResultSet hResults, co
 	{
 		return;
 	}
+	
+	Player_PostClientUpdate(iClient);
 }

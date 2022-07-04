@@ -151,7 +151,12 @@ public void Player_PostClientAdd(int iClient)
 	Player_OnClientLoaded(iClient);
 }
 
-public void Player_OnClientLoaded(int iClient)
+static void Player_OnClientLoaded(int iClient)
 {
 	Player_UpdateClient(iClient);
+}
+
+public void Player_PostClientUpdate(int iClient)
+{
+
 }

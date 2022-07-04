@@ -19,7 +19,7 @@ public Plugin myinfo =
 
 public void ADR_OnCoreLoaded()
 {
-	ADR_RegisterReward(g_szRewardID, Reward_OnReceived);
+	ADR_RegisterReward(g_szRewardID, NORMAL_REWARD, Reward_OnReceived);
 }
 
 public ADR_RewardReceiveResult Reward_OnReceived(int iClient, const char[] szPackID, const char[] szRewardID, KeyValues hRewardConfig)

@@ -18,9 +18,11 @@ public int Native_RegisterReward(Handle hPlugin, int iNumParams)
 	char szRewardID[32];
 	GetNativeString(1, szRewardID, sizeof(szRewardID));
 	
-	ADR_RewardReceived fnRewardReceived = view_as<ADR_RewardReceived>(GetNativeFunction(2));
+	ADR_RewardType eRewardType = GetNativeCell(2);
 	
-	Rewards_RegisterReward(szRewardID, view_as<Plugin>(hPlugin), fnRewardReceived);
+	ADR_RewardReceived fnRewardReceived = view_as<ADR_RewardReceived>(GetNativeFunction(3));
+	
+	Rewards_RegisterReward(szRewardID, view_as<Plugin>(hPlugin), eRewardType, fnRewardReceived);
 }
 
 public int Native_UnregisterReward(Handle hPlugin, int iNumParams)

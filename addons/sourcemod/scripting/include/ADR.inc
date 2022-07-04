@@ -27,11 +27,21 @@ forward void ADR_OnCoreLoaded();
 forward void ADR_OnClientLoaded(int iClient);
 
 /*
+ * @brief Тип награды.
+ */
+enum ADR_RewardType
+{
+	NORMAL_REWARD, // Стандартный тип.
+	TIME_REWARD // Награда будет выдаваться при спавне на определённый промежуток времени.
+}
+
+/*
  * @brief Результат при выдаче награды.
  */
 enum ADR_RewardReceiveResult
 {
-	RECEIVE_SUCCESS // Награда была выдана успешно.
+	RECEIVE_SUCCESS, // Награда была выдана успешно.
+	RECEIVE_WAIT // Награду выдать не получилось, попытка будет каждый раз при спавне.
 }
 
 /*
@@ -50,11 +60,12 @@ typedef ADR_RewardReceived = function ADR_RewardReceiveResult(int iClient, const
  * @brief Регистрация награды.
  *
  * @param szRewardID			Идентификатор награды.
+ * @param eRewardType			Тип награды.
  * @param fnRewardReceived		Функция, которая вызывается при выдаче награды.
  *
  * @noreturn
  */
-native void ADR_RegisterReward(const char[] szRewardID, ADR_RewardReceived fnRewardReceived = INVALID_FUNCTION);
+native void ADR_RegisterReward(const char[] szRewardID, ADR_RewardType eRewardType, ADR_RewardReceived fnRewardReceived = INVALID_FUNCTION);
 
 /*
  * @brief Снять регистрацию с награды.

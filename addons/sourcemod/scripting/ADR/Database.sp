@@ -124,7 +124,7 @@ public void Database_OnLoadPlayer(Database hDatabase, DBResultSet hResults, cons
 public void Database_AddPlayer(int iClient)
 {
 	int iLastVisitTime = -1;
-	Player_GetClientInfo(iClient, iLastVisitTime);
+	Player_GetClientInfo(iClient, _, iLastVisitTime);
 	
 	char szQuery[QUERY_LENGTH];
 	FormatEx(szQuery, sizeof(szQuery), g_szAddPlayerQuery, GetSteamAccountID(iClient), iLastVisitTime);
@@ -154,7 +154,7 @@ public void Database_UpdatePlayer(int iClient)
 	int iDay = 1;
 	int iNextDayTime = -1;
 	int iReceiveUses = 0;
-	Player_GetClientInfo(iClient, iLastVisitTime, iDay, iNextDayTime, iReceiveUses);
+	Player_GetClientInfo(iClient, _, iLastVisitTime, iDay, iNextDayTime, iReceiveUses);
 	
 	char szQuery[QUERY_LENGTH];
 	FormatEx(szQuery, sizeof(szQuery), g_szUpdatePlayerQuery, iLastVisitTime, iDay, iNextDayTime, iReceiveUses, GetSteamAccountID(iClient));

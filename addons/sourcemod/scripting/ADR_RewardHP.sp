@@ -22,7 +22,7 @@ public void ADR_OnCoreLoaded()
 	ADR_RegisterReward(g_szRewardID, Reward_OnReceived);
 }
 
-public void Reward_OnReceived(int iClient, const char[] szRewardID, KeyValues hRewardConfig)
+public ADR_RewardReceiveResult Reward_OnReceived(int iClient, const char[] szPackID, const char[] szRewardID, KeyValues hRewardConfig)
 {
 	PrintToChat(iClient, "Вы получили награду %s (HP: %d)", szRewardID, hRewardConfig.GetNum("value"));
 }

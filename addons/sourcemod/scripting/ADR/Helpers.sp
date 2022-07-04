@@ -44,3 +44,16 @@ public void Helpers_AddMenuAcceptableItem(Menu hMenu, int iClient, const char[] 
 	int iDisplayFlags = Player_CanReceive(iClient) ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED;
 	Helpers_AddMenuItem(hMenu, iClient, szInfo, szTranslationID, iDisplayFlags);
 }
+
+public void Helpers_PackRewardStringsCat(const char[] szPackID, const char[] szRewardID, char[] szBuffer, int iLength)
+{
+	FormatEx(szBuffer, iLength, "%s__%s", szPackID, szRewardID);
+}
+
+public void Helpers_PackRewardStringExplode(const char[] szBuffer, char[] szPackID, int iPackIDLength, char[] szRewardID, int iRewardIDLength)
+{
+	char szBuffers[2][32];
+	ExplodeString(szBuffer, "__", szBuffers, 2, 32);
+	strcopy(szPackID, iPackIDLength, szBuffers[0]);
+	strcopy(szRewardID, iRewardIDLength, szBuffers[1]);
+}

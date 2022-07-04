@@ -1,4 +1,5 @@
 
+static const char g_bIsLoaded[32] = "bIsLoaded";
 static const char g_iLastVisitTime[32] = "iLastVisitTime";
 static const char g_iDayKey[32] = "iDay";
 static const char g_iNextDayTime[32] = "iNextDayTime";
@@ -33,6 +34,7 @@ public void Player_UnloadClient(int iClient)
 public void Player_ClearClient(int iClient)
 {
 	StringMap hData = g_hPlayersData[iClient];
+	hData.SetValue(g_bIsLoaded, false);
 	hData.SetValue(g_iLastVisitTime, -1);
 	hData.SetValue(g_iDayKey, 1);
 	hData.SetValue(g_iNextDayTime, -1);
@@ -51,7 +53,7 @@ public void Player_UpdateClient(int iClient)
 	Database_UpdatePlayer(iClient);
 }
 
-stock void Player_GetClientInfo(int iClient, int& iLastVisitTime = 0, int& iDay = 0, int& iNextDayTime = 0, int& iReceiveUses = 0)
+stock void Player_GetClientInfo(int iClient, bool& bIsLoaded = false, int& iLastVisitTime = 0, int& iDay = 0, int& iNextDayTime = 0, int& iReceiveUses = 0)
 {
 	if (!Helpers_IsPlayerValid(iClient)) 
 	{
@@ -59,6 +61,7 @@ stock void Player_GetClientInfo(int iClient, int& iLastVisitTime = 0, int& iDay 
 	}
 	
 	StringMap hData = g_hPlayersData[iClient];
+	hData.GetValue(g_bIsLoaded, bIsLoaded);
 	hData.GetValue(g_iLastVisitTime, iLastVisitTime);
 	hData.GetValue(g_iDayKey, iDay);
 	hData.GetValue(g_iNextDayTime, iNextDayTime);
@@ -85,9 +88,9 @@ public void Player_ReceiveDailyReward(int iClient)
 	Player_UpdateClient(iClient);
 }
 
-public void Player_ReceiveReward(int iClient, const char[] szRewardID, KeyValues hRewardConfig)
+public void Player_ReceiveReward(int iClient, const char[] szPackID, const char[] szRewardID, KeyValues hRewardConfig)
 {
-	Rewards_OnRewardReceived(iClient, szRewardID, hRewardConfig);
+	Rewards_OnRewardReceived(iClient, szPackID, szRewardID, hRewardConfig);
 }
 
 public bool Player_CanReceive(int iClient)
@@ -160,7 +163,12 @@ public void Player_PostClientAdd(int iClient)
 
 static void Player_OnClientLoaded(int iClient)
 {
+	StringMap hData = g_hPlayersData[iClient];
+	hData.SetValue(g_bIsLoaded, true);
+
 	Player_UpdateClient(iClient);
+	
+	Forwards_OnClientLoaded(iClient);
 }
 
 public void Player_PostClientUpdate(int iClient)

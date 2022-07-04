@@ -26,11 +26,26 @@ public KeyValues Packs_GetPackConfig()
 	return g_hPacksConfig;
 }
 
-typedef ForEachRewards = function void(const char[] szRewardID, KeyValues hRewardConfig, any data);
-public void Packs_ForEachRewards(ForEachRewards fnForEachRewards, any data)
+public void Packs_JumpToRewards()
 {
 	g_hPacksConfig.JumpToKey("Rewards");
 	g_hPacksConfig.GotoFirstSubKey();
+}
+
+public bool Packs_JumpToReward(const char[] szRewardID)
+{
+	return g_hPacksConfig.JumpToKey(szRewardID);
+}
+
+public KeyValues Packs_GetRewardConfig()
+{
+	return g_hPacksConfig;
+}
+
+typedef ForEachRewards = function void(const char[] szRewardID, KeyValues hRewardConfig, any data);
+public void Packs_ForEachRewards(ForEachRewards fnForEachRewards, any data)
+{
+	Packs_JumpToRewards();
 	
 	char szRewardID[32];
 	
@@ -51,7 +66,11 @@ public void Packs_ReceivePackRewards(int iClient, const char[] szPackID)
 {
 	if (Packs_TryJumpToPack(szPackID))
 	{
-		Packs_ForEachRewards(Packs_ForEachReceiveRewards, iClient);
+		DataPack hData = new DataPack();
+		hData.WriteCell(iClient);
+		hData.WriteString(szPackID);
+	
+		Packs_ForEachRewards(Packs_ForEachReceiveRewards, hData);
 	}
 	else
 	{
@@ -59,7 +78,14 @@ public void Packs_ReceivePackRewards(int iClient, const char[] szPackID)
 	}
 }
 
-static void Packs_ForEachReceiveRewards(const char[] szRewardID, KeyValues hRewardConfig, int iClient)
+static void Packs_ForEachReceiveRewards(const char[] szRewardID, KeyValues hRewardConfig, DataPack hData)
 {
-	Player_ReceiveReward(iClient, szRewardID, hRewardConfig);
+	hData.Reset();
+	
+	int iClient = hData.ReadCell();
+	
+	char szPackID[32];
+	hData.ReadString(szPackID, sizeof(szPackID));
+
+	Player_ReceiveReward(iClient, szPackID, szRewardID, hRewardConfig);
 }

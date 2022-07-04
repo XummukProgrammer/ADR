@@ -22,7 +22,7 @@ public void Rewards_UnregisterReward(const char[] szRewardID)
 	g_hRewards.Remove(szRewardID);
 }
 
-public void Rewards_OnRewardReceived(int iClient, const char[] szRewardID, KeyValues hRewardConfig)
+public void Rewards_OnRewardReceived(int iClient, const char[] szPackID, const char[] szRewardID, KeyValues hRewardConfig)
 {
 	DataPack hRewardData;
 	g_hRewards.GetValue(szRewardID, hRewardData);
@@ -35,10 +35,24 @@ public void Rewards_OnRewardReceived(int iClient, const char[] szRewardID, KeyVa
 	
 	if (fnRewardReceived != INVALID_FUNCTION)
 	{
+		ADR_RewardReceiveResult eResult = RECEIVE_SUCCESS;
+		
 		Call_StartFunction(hPlugin, fnRewardReceived);
 		Call_PushCell(iClient);
+		Call_PushString(szPackID);
 		Call_PushString(szRewardID);
 		Call_PushCell(hRewardConfig);		
-		Call_Finish();
+		Call_Finish(eResult);
+		
+		char szPackReward[64];
+		Helpers_PackRewardStringsCat(szPackID, szRewardID, szPackReward, sizeof(szPackReward));
+		
+		switch (eResult)
+		{
+			case RECEIVE_SUCCESS:
+			{
+				LogMessage("Успешная выдача награды \"%s\" для игрока %N (%d)", szPackReward, iClient, GetSteamAccountID(iClient));
+			}
+		}
 	}
 }

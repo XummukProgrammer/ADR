@@ -38,6 +38,11 @@ public bool Days_TryJumpToDay(int iDay)
 	return true;
 }
 
+public KeyValues Days_GetDayConfig()
+{
+	return g_hDaysConfig;
+}
+
 public void Days_GetPackID(char[] szPackID, int iLength)
 {
 	g_hDaysConfig.GetString(g_szPackIdKey, szPackID, iLength);
